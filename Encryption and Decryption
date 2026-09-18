@@ -1,0 +1,66 @@
+import string
+
+def assess_password_strength(password):
+    score = 0
+    feedback = []
+
+    # Check password length
+    if len(password) >= 12:
+        score += 2
+    elif len(password) >= 8:
+        score += 1
+    else:
+        feedback.append("Password should be at least 8 characters long.")
+
+    # Check for uppercase letters
+    if any(char.isupper() for char in password):
+        score += 1
+    else:
+        feedback.append("Add at least one uppercase letter.")
+
+    # Check for lowercase letters
+    if any(char.islower() for char in password):
+        score += 1
+    else:
+        feedback.append("Add at least one lowercase letter.")
+
+    # Check for numbers
+    if any(char.isdigit() for char in password):
+        score += 1
+    else:
+        feedback.append("Add at least one number.")
+
+    # Check for special characters
+    if any(not char.isalnum() for char in password):
+        score += 1
+    else:
+        feedback.append("Add at least one special character.")
+
+    # Determine password strength
+    if score <= 2:
+        strength = "Weak"
+    elif score <= 4:
+        strength = "Moderate"
+    elif score == 5:
+        strength = "Strong"
+    else:
+        strength = "Very Strong"
+
+    return strength, feedback
+
+
+# Main Program
+print("=== Password Strength Checker ===")
+
+password = input("Enter a password to evaluate: ")
+
+strength, feedback = assess_password_strength(password)
+
+print("\nPassword Strength:", strength)
+
+if feedback:
+    print("\nSuggestions to improve your password:")
+    for suggestion in feedback:
+        print("-", suggestion)
+else:
+    print("Excellent! Your password meets all recommended criteria.")
